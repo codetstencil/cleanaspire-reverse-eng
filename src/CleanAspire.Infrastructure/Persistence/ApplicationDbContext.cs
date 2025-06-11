@@ -75,16 +75,18 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
 {
     public ApplicationDbContext CreateDbContext(string[] args)
     {
-        // Adjust the path relative to where migrations are run
-        var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "CleanAspire.Api");
+        // Find the correct base path by traversing up from the current directory
+        string currentDirectory = Directory.GetCurrentDirectory();
+        string solutionDirectory = FindSolutionRoot(currentDirectory);
+        string apiDirectory = Path.Combine(solutionDirectory, "src", "CleanAspire.Api");
 
-        if (!Directory.Exists(basePath))
+        if (!Directory.Exists(apiDirectory))
         {
-            throw new DirectoryNotFoundException($"Base path not found: {basePath}");
+            throw new DirectoryNotFoundException($"API directory not found: {apiDirectory}");
         }
 
         var configuration = new ConfigurationBuilder()
-            .SetBasePath(basePath)
+            .SetBasePath(apiDirectory)
             .AddJsonFile("appsettings.json", optional: false)
             .Build();
 
@@ -106,5 +108,18 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
         }
 
         return new ApplicationDbContext(optionsBuilder.Options);
+    }
+
+    // Helper method to find the solution root directory
+    private string FindSolutionRoot(string startDirectory)
+    {
+        // Start from the current directory and go up until we find the solution file or reach the root
+        var directory = new DirectoryInfo(startDirectory);
+        while (directory != null && !directory.GetFiles("*.sln").Any())
+        {
+            directory = directory.Parent;
+        }
+
+        return directory?.FullName ?? throw new DirectoryNotFoundException("Solution root directory not found");
     }
 }
