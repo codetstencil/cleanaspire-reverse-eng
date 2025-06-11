@@ -12,6 +12,7 @@
         <AssemblyName>CleanAspire.ClientApp</AssemblyName>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="FindRazorSourceFile.WebAssembly" Version="1.0.0-preview.14.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.5" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.5" />
         <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
