@@ -24,5 +24,7 @@ public class Customer : BaseAuditableEntity, IAuditTrial
     /// </summary>
     public string Address { get; set; } = string.Empty;
 
+
     public ICollection<SalesOrder> SalesOrders { get; set; } = new List<SalesOrder>();
+
 }

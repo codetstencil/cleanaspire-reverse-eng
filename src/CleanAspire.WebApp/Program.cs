@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using CleanAspire.ClientApp;
-
+using FindRazorSourceFile.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
@@ -12,7 +12,6 @@ builder.AddServiceDefaults();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
-
 
 builder.Services.AddCoreServices(builder.Configuration);
 builder.Services.AddHttpClients(builder.Configuration);
@@ -24,6 +23,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseFindRazorSourceFile();
 }
 else
 {
