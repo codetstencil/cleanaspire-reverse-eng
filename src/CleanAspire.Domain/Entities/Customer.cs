@@ -23,4 +23,8 @@ public class Customer : BaseAuditableEntity, IAuditTrial
     /// Gets or sets the address of the customer.
     /// </summary>
     public string Address { get; set; } = string.Empty;
+
+
+    public ICollection<SalesOrder> SalesOrders { get; set; } = new List<SalesOrder>();
+
 }

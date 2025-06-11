@@ -46,6 +46,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     public DbSet<Customer> Customers { get; set; }
 
+
+    public DbSet<SalesOrder> SalesOrders { get; set; }
+
+
     /// <summary>
     /// Configures the schema needed for the identity framework.
     /// </summary>
