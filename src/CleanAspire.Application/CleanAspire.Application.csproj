@@ -20,4 +20,8 @@
     <ProjectReference Include="..\CleanAspire.Domain\CleanAspire.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Customers\Validators\" />
+  </ItemGroup>
+
 </Project>
