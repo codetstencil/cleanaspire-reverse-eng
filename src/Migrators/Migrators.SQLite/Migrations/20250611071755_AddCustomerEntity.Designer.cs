@@ -3,6 +3,7 @@ using System;
 using CleanAspire.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanAspire.Migrators.SQLite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250611071755_AddCustomerEntity")]
+    partial class AddCustomerEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
@@ -166,48 +169,6 @@ namespace CleanAspire.Migrators.SQLite.Migrations
                         .IsUnique();
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("CleanAspire.Domain.Entities.SalesOrder", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(450)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(450)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CustomerId")
-                        .HasMaxLength(450)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(450)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("SalesOrders");
                 });
 
             modelBuilder.Entity("CleanAspire.Domain.Entities.Stock", b =>
@@ -549,16 +510,6 @@ namespace CleanAspire.Migrators.SQLite.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("CleanAspire.Domain.Entities.SalesOrder", b =>
-                {
-                    b.HasOne("CleanAspire.Domain.Entities.Customer", "Customer")
-                        .WithMany("SalesOrders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("CleanAspire.Domain.Entities.Stock", b =>
                 {
                     b.HasOne("CleanAspire.Domain.Entities.Product", "Product")
@@ -628,11 +579,6 @@ namespace CleanAspire.Migrators.SQLite.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CleanAspire.Domain.Entities.Customer", b =>
-                {
-                    b.Navigation("SalesOrders");
                 });
 #pragma warning restore 612, 618
         }

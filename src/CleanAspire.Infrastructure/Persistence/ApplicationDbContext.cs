@@ -5,6 +5,8 @@ using CleanAspire.Domain.Identities;
 using CleanAspire.Infrastructure.Persistence.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
 namespace CleanAspire.Infrastructure.Persistence;
@@ -42,6 +44,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     /// </summary>
     public DbSet<Stock> Stocks { get; set; }
 
+    public DbSet<Customer> Customers { get; set; }
+
+
+    public DbSet<SalesOrder> SalesOrders { get; set; }
+
+
     /// <summary>
     /// Configures the schema needed for the identity framework.
     /// </summary>
@@ -63,3 +71,40 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     }
 }
 
+public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+{
+    public ApplicationDbContext CreateDbContext(string[] args)
+    {
+        // Adjust the path relative to where migrations are run
+        var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "CleanAspire.Api");
+
+        if (!Directory.Exists(basePath))
+        {
+            throw new DirectoryNotFoundException($"Base path not found: {basePath}");
+        }
+
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(basePath)
+            .AddJsonFile("appsettings.json", optional: false)
+            .Build();
+
+        var connectionString = configuration.GetSection("DatabaseSettings")["ConnectionString"];
+        var dbProvider = configuration.GetSection("DatabaseSettings")["DBProvider"];
+
+        var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+
+        if (dbProvider?.ToLower() == "sqlite")
+        {
+            optionsBuilder.UseSqlite(connectionString, b =>
+            {
+                b.MigrationsAssembly("CleanAspire.Migrators.SQLite");
+            });
+        }
+        else
+        {
+            throw new Exception($"Unsupported DB Provider: {dbProvider}");
+        }
+
+        return new ApplicationDbContext(optionsBuilder.Options);
+    }
+}
