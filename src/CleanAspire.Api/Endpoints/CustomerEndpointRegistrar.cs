@@ -33,5 +33,42 @@ public class CustomerEndpointRegistrar(ILogger<CustomerEndpointRegistrar> logger
             .ProducesProblem(StatusCodes.Status500InternalServerError)
             .WithSummary("Get customers with pagination")
             .WithDescription("Returns a paginated list of customers based on search keywords, page size, and sorting options.");
+
+        // Get all customers
+        group.MapGet("/",async ([FromServices]IMediator mediator) => await mediator.Send(new GetAllCustomersQuery()))
+            .Produces<IEnumerable<CustomerDto>>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithSummary("Get all customers")
+            .WithDescription("Returns a list of all customers.");
+
+        // Get customer by ID
+        group.MapGet("/{id}", (IMediator mediator, [FromRoute] string id) => mediator.Send(new GetCustomerByIdQuery(id)))
+            .Produces<CustomerDto>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithSummary("Get customer by ID")
+            .WithDescription("Returns the details of a specific customer by their unique ID.");
+
+        // Update customer
+        group.MapPut("/", ([FromServices] IMediator mediator, [FromBody] UpdateCustomerCommand command) => mediator.Send(command))
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesValidationProblem(StatusCodes.Status422UnprocessableEntity)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithSummary("Update customer")
+            .WithDescription("Updates an existing customer's details.");
+
+        // Delete customer
+        group.MapDelete("/", ([FromServices] IMediator mediator, [FromBody] DeleteCustomerCommand command) => mediator.Send(command))
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesValidationProblem(StatusCodes.Status422UnprocessableEntity)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithSummary("Delete customer")
+            .WithDescription("Deletes a customer by their unique ID.");
+
     }
 }
