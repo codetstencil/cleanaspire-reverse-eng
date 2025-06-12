@@ -50,6 +50,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public DbSet<SalesOrder> SalesOrders { get; set; }
 
 
+
+    public DbSet<SalesOrder> SalesOrders { get; set; }
+
+
+
     /// <summary>
     /// Configures the schema needed for the identity framework.
     /// </summary>
@@ -75,6 +80,18 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
 {
     public ApplicationDbContext CreateDbContext(string[] args)
     {
+
+        // Adjust the path relative to where migrations are run
+        var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "CleanAspire.Api");
+
+        if (!Directory.Exists(basePath))
+        {
+            throw new DirectoryNotFoundException($"Base path not found: {basePath}");
+        }
+
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(basePath)
+
         // Find the correct base path by traversing up from the current directory
         string currentDirectory = Directory.GetCurrentDirectory();
         string solutionDirectory = FindSolutionRoot(currentDirectory);
@@ -87,6 +104,7 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
 
         var configuration = new ConfigurationBuilder()
             .SetBasePath(apiDirectory)
+
             .AddJsonFile("appsettings.json", optional: false)
             .Build();
 
@@ -110,6 +128,7 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
         return new ApplicationDbContext(optionsBuilder.Options);
     }
 
+
     // Helper method to find the solution root directory
     private string FindSolutionRoot(string startDirectory)
     {
@@ -122,4 +141,5 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
 
         return directory?.FullName ?? throw new DirectoryNotFoundException("Solution root directory not found");
     }
+
 }

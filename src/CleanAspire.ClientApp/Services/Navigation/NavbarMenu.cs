@@ -54,6 +54,13 @@ public static class NavbarMenu
                         Href = "",
                         Status = PageStatus.Completed,
                         Description = "See our top-selling products."
+                    },
+                    new MenuItem
+                    {
+                        Label = "Customers",
+                        Href = "/customers/index",
+                        Status = PageStatus.Completed,
+                        Description = "Manage customer records and details."
                     }
                 }
             },
