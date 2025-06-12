@@ -27,8 +27,10 @@ public interface IApplicationDbContext
 
     DbSet<Customer> Customers { get; set; }
 
-
     DbSet<SalesOrder> SalesOrders { get; set; }
+
+    DbSet<Album> Albums { get; set; }
+    DbSet<Artist> Artists { get; set; }
 
     /// <summary>
     /// Saves all changes made in this context to the database.

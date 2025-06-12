@@ -46,8 +46,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     public DbSet<Customer> Customers { get; set; }
 
-
     public DbSet<SalesOrder> SalesOrders { get; set; }
+
+    public DbSet<Album> Albums { get; set; }
+    public DbSet<Artist> Artists { get; set; }
 
 
     /// <summary>
@@ -77,33 +79,32 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     {
 
         // Adjust the path relative to where migrations are run
-        var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "CleanAspire.Api");
+        //var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "CleanAspire.Api");
 
-        if (!Directory.Exists(basePath))
-        {
-            throw new DirectoryNotFoundException($"Base path not found: {basePath}");
-        }
-
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(basePath)
-            .AddJsonFile("appsettings.json", optional: false)
-            .Build();
-
-        // Find the correct base path by traversing up from the current directory
-        //string currentDirectory = Directory.GetCurrentDirectory();
-        //string solutionDirectory = FindSolutionRoot(currentDirectory);
-        //string apiDirectory = Path.Combine(solutionDirectory, "src", "CleanAspire.Api");
-
-        //if (!Directory.Exists(apiDirectory))
+        //if (!Directory.Exists(basePath))
         //{
-        //    throw new DirectoryNotFoundException($"API directory not found: {apiDirectory}");
+        //    throw new DirectoryNotFoundException($"Base path not found: {basePath}");
         //}
 
         //var configuration = new ConfigurationBuilder()
-        //    .SetBasePath(apiDirectory)
-
+        //    .SetBasePath(basePath)
         //    .AddJsonFile("appsettings.json", optional: false)
         //    .Build();
+
+        // Find the correct base path by traversing up from the current directory
+        string currentDirectory = Directory.GetCurrentDirectory();
+        string solutionDirectory = FindSolutionRoot(currentDirectory);
+        string apiDirectory = Path.Combine(solutionDirectory, "src", "CleanAspire.Api");
+
+        if (!Directory.Exists(apiDirectory))
+        {
+            throw new DirectoryNotFoundException($"API directory not found: {apiDirectory}");
+        }
+
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(apiDirectory)
+            .AddJsonFile("appsettings.json", optional: false)
+            .Build();
 
         var connectionString = configuration.GetSection("DatabaseSettings")["ConnectionString"];
         var dbProvider = configuration.GetSection("DatabaseSettings")["DBProvider"];
