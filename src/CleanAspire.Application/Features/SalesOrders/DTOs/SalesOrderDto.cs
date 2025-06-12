@@ -16,7 +16,11 @@ public class SalesOrderDto
     /// <summary>
     /// Gets or sets the unique identifier of the sales order.
     /// </summary>
+
     public string? Id { get; set; }
+
+    public string Id { get; set; }
+
     /// <summary>
     /// Gets or sets the customer identifier associated with the sales order.
     /// </summary>
@@ -30,10 +34,12 @@ public class SalesOrderDto
     /// <summary>
     /// Gets or sets the date when the sales order was created.
     /// </summary>
+
     /// 
     public string? Status { get; set; }
     public string? CustomerName { get; set; }
     public string? CustomerEmail { get; set; }
     public int Quantity { get; set; }
+
     public DateTime CreatedDate { get; set; }
 }

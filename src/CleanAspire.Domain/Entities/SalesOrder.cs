@@ -21,7 +21,9 @@ public class SalesOrder : BaseAuditableEntity, IAuditTrial
     /// </summary>
     public DateTime OrderDate { get; set; }
 
+
     public int Quantity { get; set; }
+
 
     /// <summary>
     /// Gets or sets the customer associated with the sales order.

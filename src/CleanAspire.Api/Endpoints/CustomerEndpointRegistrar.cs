@@ -34,6 +34,7 @@ public class CustomerEndpointRegistrar(ILogger<CustomerEndpointRegistrar> logger
             .WithSummary("Get customers with pagination")
             .WithDescription("Returns a paginated list of customers based on search keywords, page size, and sorting options.");
 
+
         // Get all customers
         group.MapGet("/",async ([FromServices]IMediator mediator) => await mediator.Send(new GetAllCustomersQuery()))
             .Produces<IEnumerable<CustomerDto>>(StatusCodes.Status200OK)

@@ -27,6 +27,7 @@ public interface IApplicationDbContext
 
     DbSet<Customer> Customers { get; set; }
 
+
     DbSet<SalesOrder> SalesOrders { get; set; }
 
     /// <summary>

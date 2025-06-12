@@ -30,9 +30,10 @@ public class CustomerDto
     /// <summary>
     /// Gets or sets the date and time when the customer was created.
     /// </summary>
-    /// 
+
 
     public string Address { get; set; }
+
     public DateTime? Created { get; set; }
     /// <summary>
     /// Gets or sets the date and time when the customer was last modified.
