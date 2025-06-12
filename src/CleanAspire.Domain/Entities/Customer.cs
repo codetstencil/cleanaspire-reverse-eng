@@ -28,7 +28,4 @@ public class Customer : BaseAuditableEntity, IAuditTrial
     public ICollection<SalesOrder> SalesOrders { get; set; } = new List<SalesOrder>();
 
 
-    public ICollection<SalesOrder> SalesOrders { get; set; } = new List<SalesOrder>();
-
-
 }

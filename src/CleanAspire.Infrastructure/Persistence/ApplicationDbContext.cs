@@ -50,11 +50,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public DbSet<SalesOrder> SalesOrders { get; set; }
 
 
-
-    public DbSet<SalesOrder> SalesOrders { get; set; }
-
-
-
     /// <summary>
     /// Configures the schema needed for the identity framework.
     /// </summary>
@@ -91,22 +86,24 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
 
         var configuration = new ConfigurationBuilder()
             .SetBasePath(basePath)
-
-        // Find the correct base path by traversing up from the current directory
-        string currentDirectory = Directory.GetCurrentDirectory();
-        string solutionDirectory = FindSolutionRoot(currentDirectory);
-        string apiDirectory = Path.Combine(solutionDirectory, "src", "CleanAspire.Api");
-
-        if (!Directory.Exists(apiDirectory))
-        {
-            throw new DirectoryNotFoundException($"API directory not found: {apiDirectory}");
-        }
-
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(apiDirectory)
-
             .AddJsonFile("appsettings.json", optional: false)
             .Build();
+
+        // Find the correct base path by traversing up from the current directory
+        //string currentDirectory = Directory.GetCurrentDirectory();
+        //string solutionDirectory = FindSolutionRoot(currentDirectory);
+        //string apiDirectory = Path.Combine(solutionDirectory, "src", "CleanAspire.Api");
+
+        //if (!Directory.Exists(apiDirectory))
+        //{
+        //    throw new DirectoryNotFoundException($"API directory not found: {apiDirectory}");
+        //}
+
+        //var configuration = new ConfigurationBuilder()
+        //    .SetBasePath(apiDirectory)
+
+        //    .AddJsonFile("appsettings.json", optional: false)
+        //    .Build();
 
         var connectionString = configuration.GetSection("DatabaseSettings")["ConnectionString"];
         var dbProvider = configuration.GetSection("DatabaseSettings")["DBProvider"];

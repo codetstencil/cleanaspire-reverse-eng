@@ -19,8 +19,6 @@ public class SalesOrderDto
 
     public string? Id { get; set; }
 
-    public string Id { get; set; }
-
     /// <summary>
     /// Gets or sets the customer identifier associated with the sales order.
     /// </summary>
