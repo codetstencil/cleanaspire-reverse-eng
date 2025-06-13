@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Features\Artists\Queries\GetAllArtistsQuery.xpo" />
+    <None Remove="Features\Artists\Queries\GetAllArtistsQuery.xpo.diagram" />
+  </ItemGroup>
+
+  <ItemGroup>
       <PackageReference Include="SixLabors.ImageSharp" Version="3.1.8" />
       <PackageReference Include="CsvHelper" Version="33.0.1" />
       <PackageReference Include="FluentValidation" Version="12.0.0" />

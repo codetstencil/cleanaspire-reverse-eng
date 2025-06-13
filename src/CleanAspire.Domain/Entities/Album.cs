@@ -1,6 +1,8 @@
-﻿namespace CleanAspire.Domain.Entities;
+﻿using CleanAspire.Domain.Common;
 
-public class Album
+namespace CleanAspire.Domain.Entities;
+
+public class Album : BaseAuditableEntity
 {
     public int AlbumId { get; set; }
     public string Title { get; set; } = string.Empty;
