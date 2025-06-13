@@ -61,6 +61,13 @@ public static class NavbarMenu
                         Href = "/customers/index",
                         Status = PageStatus.Completed,
                         Description = "Manage customer records and details."
+                    },
+                    new MenuItem
+                    {
+                        Label = "Artists",
+                        Href = "/artists/index",
+                        Status = PageStatus.Completed,
+                        Description = "Mange artists record and details."
                     }
                 }
             },
